@@ -11,7 +11,7 @@ public class CustomerController {
 
 	@RequestMapping
 	public Order createOrder() {
-		return new Order("xyz", "abc");
+		return new Order("abc");
 	}
 
 }

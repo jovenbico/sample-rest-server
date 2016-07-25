@@ -1,25 +1,18 @@
 package com.bicjo.rest.model;
 
-public class Order {
+import org.springframework.core.style.ToStringCreator;
 
-	private String id;
+public class Order extends SimpleModel {
+
 	private String name;
 
 	public Order() {
-		this(null, null);
+		this(null);
 	}
 
-	public Order(String id, String name) {
-		this.id = id;
+	public Order(String name) {
+		super();
 		this.name = name;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -28,6 +21,11 @@ public class Order {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringCreator(this).append(getId()).append(this.name).toString();
 	}
 
 }
