@@ -1,5 +1,6 @@
 package com.bicjo.rest.cache;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.List;
 import com.bicjo.rest.cache.specification.Specification;
 import com.bicjo.rest.model.SimpleModel;
 
-public abstract class SimpleCacheManager<T extends SimpleModel> implements CacheManager<T> {
+public abstract class SimpleCacheManager<T extends SimpleModel, ID extends Serializable>
+		implements CacheManager<T, ID> {
 
 	private List<T> storage = Collections.synchronizedList(new ArrayList<>());
 
@@ -30,28 +32,56 @@ public abstract class SimpleCacheManager<T extends SimpleModel> implements Cache
 	}
 
 	@Override
-	public void update(T model) {
+	public T get(ID id) {
+		T result = null;
+		for (T model : storage) {
+			if (model.getId().equals(id)) {
+				result = model;
+				break;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public T update(T model) {
+		T result = null;
+
 		@SuppressWarnings("unchecked")
 		Specification<T> modelSpec = (Specification<T>) model.simpleSpecification();
 		for (T m : storage) {
 			if (modelSpec.match(m)) {
 				storage.remove(m);
 				storage.add(model);
+				result = model;
 				break;
 			}
 		}
+
+		return result;
 	}
 
 	@Override
-	public void delete(T model) {
+	public T delete(T model) {
+		T result = null;
 		@SuppressWarnings("unchecked")
 		Specification<T> modelSpec = (Specification<T>) model.simpleSpecification();
 		for (T m : storage) {
 			if (modelSpec.match(m)) {
 				storage.remove(m);
+				result = m;
 				break;
 			}
 		}
+		return result;
+	}
+
+	@Override
+	public List<T> all() {
+		List<T> results = new ArrayList<>();
+		results.addAll(storage);
+
+		return results;
 	}
 
 	@Override

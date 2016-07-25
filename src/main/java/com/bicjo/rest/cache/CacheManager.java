@@ -4,15 +4,19 @@ import java.util.List;
 
 import com.bicjo.rest.cache.specification.Specification;
 
-public interface CacheManager<T> {
+public interface CacheManager<T, ID> {
 
 	void add(T model);
 
+	T get(ID id);
+
 	List<T> query(Specification<T> spec);
 
-	void update(T model);
+	T update(T model);
 
-	void delete(T model);
+	T delete(T model);
+
+	List<T> all();
 
 	int size();
 
