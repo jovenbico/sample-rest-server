@@ -30,7 +30,7 @@ dependencies {
 }
 
 jar {
-    baseName = 'pi-remote-access'
+    baseName = 'rest-server'
     version =  '0.0.1-SNAPSHOT'
 }
 springBoot {
