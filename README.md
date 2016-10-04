@@ -3,6 +3,8 @@
 
 ## how to run
 	$ gradle bootRun
+## how to install Gradle
+	https://docs.gradle.org/current/userguide/installation.html
 
 ## As a customer, i want to order a coffee so that Starbucks can prepare my drink
 	POST http://localhost:8181/customers/order
